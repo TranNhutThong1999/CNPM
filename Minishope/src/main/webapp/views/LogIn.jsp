@@ -234,19 +234,67 @@
 	     fjs.parentNode.insertBefore(js, fjs);
 	   }(document, 'script', 'facebook-jssdk'));
 </script>
-		</div>
-	</div>
+	
 	
 	<script src='<c:url value="/resources/js/1.js" />'  type="text/javascript" ></script>
 	<script type="text/javascript">
 
+		$(window).ready(function(){
+			var dem=30;
+			
+			$("#pwdModal").hide();
+			$('#inputEmail').hide();
+			$("#inputPassword").hide();
+			$("#back-changePassword").hide();
 		
-// submit send token
+			$('#nutSigIn').click(function(e){
+			//	e.preventdefault();
+				let name=$("#userName").val();
+				let password =$("#password").val();
+				$.ajax({
+					url:"/Minishope/Api/login",
+					method:"post",
+					data:{
+						username:name,
+						password:password
+					},
+					success:function(value){
+						sessionStorage.setItem('token', value);
+						window.location.href="/Minishope/Home/";
+					},
+					error:function(err){
+						console.log(err)
+					},
+					statusCode: {
+					    400: function() {
+					    	window.location.href="/Minishope/login?message=failure";
+					    },
+					}
+				})
+				
+			}) 
+			
+			$("#clickForget").click(function(){
+				//$("#login").hide();
+				$("#pwdModal").show();
+				 $('#inputEmail').show();
+			})
+			$("#back-sendToken").click(function(){
+				$("#pwdModal").show();
+				$("#inputPassword").hide();
+				$("#inputEmail").show();
+			})
+			
+			 $("#back-changePassword").click(function(){
+				$("#pwdModal").show();
+				$("#inputPassword").show();
+				$("#inputEmail").hide();
+			}) 
+			
+
+				
 		
-// time down
-	
-//validate token
-		
+		})//end
 	</script>
 </body>
 </html>

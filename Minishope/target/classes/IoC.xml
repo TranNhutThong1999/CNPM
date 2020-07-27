@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		">
+
+<mvc:resources location="/resources/" mapping="resources/**"></mvc:resources>
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+			 <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+	         <property name="url" value="jdbc:mysql://localhost:3306/dbminishop"/>
+	        <property name="username" value="root"/>
+	         <property name="password" value="0985153812"/>
+</bean> 
+<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" >
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="packagesToScan" value="com.thong.Entity"></property>
+		<!-- <property name="hibernate.hbm2ddl.auto" value="update"> -->
+		<property name="hibernateProperties">
+		<value>  hibernate.dialect=org.hibernate.dialect.MySQLDialect
+				hibernate.search.default.directory_provider = org.hibernate.search.store.impl.FSDirectoryProvider
+				hibernate.show_sql=true
+		</value>	
+		</property>
+	
+</bean>
+ <bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	 	<property name="host" value="smtp.gmail.com" />
+	 	<property name="port" value="25"/>
+	    <property name="username" value="thongmap1998x@gmail.com" />
+	    <property name="password" value="0909310872" />
+	    <property name="javaMailProperties">
+	    <props>
+	      	 	<prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.debug">true</prop>
+		         <prop key="mail.smtp.connectiontimeout">5000</prop>
+		         <prop key="mail.smtp.timeout">5000</prop>
+	      </props> 
+	    </property>
+</bean> 
+<!-- custom interceptor to Json web token -->
+	  <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/Api/**" />
+			<mvc:exclude-mapping path="/Api/CheckSignUp/" />
+			<mvc:exclude-mapping path="/Api/NhanVien/" />
+			<mvc:exclude-mapping path="/Api/sendToken" />
+			<mvc:exclude-mapping path="/Api/sendTokenPassword" />
+			<mvc:exclude-mapping path="/Api/changePW" />
+			<mvc:exclude-mapping path="/Api/login-Facebook" />
+			<mvc:exclude-mapping path="/Api/login" />
+			<bean id="customInterceptor"
+				class="com.thong.security.CustomInterceptor_JWT"></bean>
+		</mvc:interceptor>
+
+	</mvc:interceptors>  
+
+  <bean id="passwordEncoder"
+                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+<bean id="transactionManager"   class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+<property name="sessionFactory" ref="sessionFactory"></property>
+</bean>
+<tx:annotation-driven transaction-manager="transactionManager" />
+<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    <property name="basename" value="/WEB-INF/Messages/messages" />
+    <property name="defaultEncoding" value="utf-8"></property>
+</bean>
+
+<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+       <property name="validationMessageSource" ref="messageSource"/>
+</bean>
+<mvc:annotation-driven validator="validator"/> 
+	<context:component-scan base-package="com.thong"></context:component-scan>	
+	<mvc:annotation-driven></mvc:annotation-driven>
+	<context:annotation-config></context:annotation-config>		 
+    <task:annotation-driven executor="sendMail" />
+	<task:executor id="sendMail" pool-size="5"/>
+		
+</beans>

@@ -85,7 +85,38 @@ public class Ajax {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
+	@PostMapping(value = "login-Facebook", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> LoginByFaceBook(@RequestBody String json) {
+		boolean result = false;
+		JSONObject o = new JSONObject(json);
+		NhanVien nv = nhanVienService.findByUserName(o.getString("userID"));
+		String JWT;
+		if (nv == null) {
+			// create user
+			System.out.println("vao");
+			NhanVien nvFB = new NhanVien();
+			nvFB.setTenDangNhap(o.getString("userID"));
+			nvFB.setHoTen(o.getString("firstname") + " " + o.getString("lastname"));
+			nvFB.setToKenFB(o.getString("token"));
+			nvFB.setEmail(o.getString("email"));
+			nvFB.setEnabled(true);
+			nvFB.setNonBanned(true);
+			nhanVienService.saveUserFB(nvFB);
+			createPrincical(nvFB);
+			JWT = jwt.generateToken(nvFB.getTenDangNhap());
+			return new ResponseEntity<String>(JWT, HttpStatus.OK);
+		} else {
+			// create principal
+			result = createPrincical(nv);
+			if (result == false) {
+				System.out.println("bedddddd");
+				return new ResponseEntity<String>("failure", HttpStatus.BAD_REQUEST);
+			}
+			JWT = jwt.generateToken(nv.getTenDangNhap());
+			return new ResponseEntity<String>(JWT, HttpStatus.OK);
+		}
 
+	}
 	private boolean createPrincical(NhanVien nv) {
 		List<GrantedAuthority> listAuthor = new ArrayList<GrantedAuthority>();
 		listAuthor.add(new SimpleGrantedAuthority(nv.getChucVu().getTenChucVu()));

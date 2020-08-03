@@ -18,7 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 import com.thong.DTO.MyUser;
-import com.thong.Entity.NhanVien;
+import com.thong.Entity.User;
 import com.thong.InterfaceService.INhanVienService;
 import com.thong.JWT.JWT;
 
@@ -35,7 +35,7 @@ public class JwtFilter extends GenericFilterBean {
         String token = r.getHeader("Authorization");
         if (token != null && jWT.validateToken(token)) {
         	String usename =jWT.getUserNameFromJWT(token);
-        	NhanVien nv = nhanVienService.findByUserName(usename);
+        	User nv = nhanVienService.findByUserName(usename);
         	
         	List<GrantedAuthority> authortity = new ArrayList<GrantedAuthority>();
     		authortity.add(new SimpleGrantedAuthority(nv.getChucVu().getTenChucVu()));

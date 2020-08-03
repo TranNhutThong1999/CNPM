@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.thong.DAO.NhanVienDAO;
 import com.thong.DTO.MyUser;
-import com.thong.Entity.NhanVien;
+import com.thong.Entity.User;
 
 @Service
 public class CustomUserDetail implements UserDetailsService{
@@ -23,7 +23,7 @@ public class CustomUserDetail implements UserDetailsService{
 	//add context-can bas-packet
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		System.out.println("da vao "+username);	
-		NhanVien nv = nhanVienDAO.findByUserName(username);
+		User nv = nhanVienDAO.findByUserName(username);
 		if(nv==null ) {
 			System.out.println("ban");
 			throw new UsernameNotFoundException("user not found");

@@ -2,41 +2,41 @@ package com.thong.InterfaceService;
 
 import java.util.List;
 
-import com.thong.DTO.NhanVienDTO;
-import com.thong.Entity.NhanVien;
+import com.thong.DTO.UserDTO;
+import com.thong.Entity.User;
 
 public interface INhanVienService {
-	NhanVienDTO checkLogin(String userName, String password);
+	UserDTO checkLogin(String userName, String password);
 
-	int save(NhanVienDTO nv);
+	int save(UserDTO nv);
 
 	boolean checkUserName(String userName);
 
-	List<NhanVienDTO> searchNhanVien(String keyWords, String sortBy, String typeSort, int begin, int quantity);
+	List<UserDTO> searchNhanVien(String keyWords, String sortBy, String typeSort, int begin, int quantity);
 
-	List<NhanVienDTO> findAll(int begin, int quantity, String sortBy, String typeSort);
+	List<UserDTO> findAll(int begin, int quantity, String sortBy, String typeSort);
 
 	void delete(List<Integer> idUser);
 
-	NhanVienDTO findOneById(int idUser);
+	UserDTO findOneById(int idUser);
 
-	NhanVien findOneById2(int idUser);
+	User findOneById2(int idUser);
 
 	boolean checkEmail(String email);
 	
-	NhanVienDTO findByUserNameDTO(String userName);
+	UserDTO findByUserNameDTO(String userName);
 
-	NhanVien findByUserName(String userName);
+	User findByUserName(String userName);
 
-	void update(NhanVienDTO nv);
+	void update(UserDTO nv);
 	
-	void update(NhanVien nv);
+	void update(User nv);
 
-	NhanVien findByToken(String token);
+	User findByToken(String token);
 	
-	NhanVienDTO findByTokenDTO(String token);
+	UserDTO findByTokenDTO(String token);
 	
-	NhanVien findByTokenFB(String tokenFB);
+	User findByTokenFB(String tokenFB);
 	
-	boolean saveUserFB(NhanVien nv);
+	boolean saveUserFB(User nv);
 }

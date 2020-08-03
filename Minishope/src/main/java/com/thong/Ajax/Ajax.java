@@ -47,8 +47,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.thong.DTO.MyUser;
-import com.thong.DTO.NhanVienDTO;
-import com.thong.Entity.NhanVien;
+import com.thong.DTO.UserDTO;
+import com.thong.Entity.ChucVu;
+import com.thong.Entity.User;
+import com.thong.InterfaceService.IChucVuService;
 import com.thong.InterfaceService.INhanVienService;
 import com.thong.JWT.JWT;
 import com.thong.Service.MailSerive;
@@ -84,23 +86,31 @@ public class Ajax {
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	@Autowired
+	private IChucVuService chucVuService;
+
 
 	@PostMapping(value = "login-Facebook", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> LoginByFaceBook(@RequestBody String json) {
 		boolean result = false;
 		JSONObject o = new JSONObject(json);
-		NhanVien nv = nhanVienService.findByUserName(o.getString("userID"));
+		User nv = nhanVienService.findByUserName(o.getString("userID"));
 		String JWT;
 		if (nv == null) {
 			// create user
 			System.out.println("vao");
-			NhanVien nvFB = new NhanVien();
+			User nvFB = new User();
 			nvFB.setTenDangNhap(o.getString("userID"));
 			nvFB.setHoTen(o.getString("firstname") + " " + o.getString("lastname"));
 			nvFB.setToKenFB(o.getString("token"));
+			if(o.getString("email")!=null) {
 			nvFB.setEmail(o.getString("email"));
+			}
 			nvFB.setEnabled(true);
 			nvFB.setNonBanned(true);
+			ChucVu cv = chucVuService.findOneByName("ROLE_user");
+			nvFB.setChucVu(cv);
+			System.out.println(nvFB.getChucVu().toString());
 			nhanVienService.saveUserFB(nvFB);
 			createPrincical(nvFB);
 			JWT = jwt.generateToken(nvFB.getTenDangNhap());
@@ -117,7 +127,7 @@ public class Ajax {
 		}
 
 	}
-	private boolean createPrincical(NhanVien nv) {
+	private boolean createPrincical(User nv) {
 		List<GrantedAuthority> listAuthor = new ArrayList<GrantedAuthority>();
 		listAuthor.add(new SimpleGrantedAuthority(nv.getChucVu().getTenChucVu()));
 		MyUser user;
@@ -137,7 +147,7 @@ public class Ajax {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<String> testValid(@RequestParam  String username,@RequestParam String password) {
+	public ResponseEntity<String> checkLogin(@RequestParam  String username,@RequestParam String password) {
 		
 		System.out.println(username);
 		System.out.println(password);

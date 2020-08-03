@@ -14,7 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.thong.DTO.MyUser;
-import com.thong.Entity.NhanVien;
+import com.thong.Entity.User;
 import com.thong.InterfaceService.INhanVienService;
 import com.thong.JWT.JWT;
 
@@ -34,7 +34,7 @@ public class CustomInterceptor_JWT extends HandlerInterceptorAdapter {
 		System.out.println("token:"+token);
 		if (jWT.validateToken(token)&& token!=null) {
 			String usename =jWT.getUserNameFromJWT(token);
-        	NhanVien nv = nhanVienService.findByUserName(usename);
+        	User nv = nhanVienService.findByUserName(usename);
         	
         	List<GrantedAuthority> authortity = new ArrayList<GrantedAuthority>();
     		authortity.add(new SimpleGrantedAuthority(nv.getChucVu().getTenChucVu()));
@@ -52,7 +52,7 @@ public class CustomInterceptor_JWT extends HandlerInterceptorAdapter {
 		return true;
 	}
 
-	private boolean createPrincical(NhanVien nv) {
+	private boolean createPrincical(User nv) {
 
 		List<GrantedAuthority> listAuthor = new ArrayList<GrantedAuthority>();
 		listAuthor.add(new SimpleGrantedAuthority(nv.getChucVu().getTenChucVu()));

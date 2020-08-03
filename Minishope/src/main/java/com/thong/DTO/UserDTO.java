@@ -11,9 +11,9 @@ import javax.validation.constraints.Size;
 
 import com.thong.CustomValidation.IsExist;
 import com.thong.Entity.ChucVu;
-import com.thong.Entity.NhanVien;
+import com.thong.Entity.User;
 
-public class NhanVienDTO {
+public class UserDTO {
 	private int idNhanVien;
 	private String hoTen;
 	private String diaChi;
@@ -42,11 +42,11 @@ public class NhanVienDTO {
 	private boolean isNonBanned;
 	private String ToKenFB;
 
-	public NhanVienDTO() {
+	public UserDTO() {
 		this.token = UUID.randomUUID().toString();
 	}
 
-	public NhanVienDTO(NhanVien nv) {
+	public UserDTO(User nv) {
 		this.idNhanVien = nv.getIdNhanVien();
 		this.hoTen = nv.getHoTen();
 		this.diaChi = nv.getDiaChi();

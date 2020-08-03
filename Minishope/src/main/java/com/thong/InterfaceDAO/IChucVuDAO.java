@@ -10,4 +10,5 @@ import com.thong.Entity.ChucVu;
 public interface IChucVuDAO {
 
 	List<ChucVu> findAll();
+	ChucVu findOneByName(String name);
 }

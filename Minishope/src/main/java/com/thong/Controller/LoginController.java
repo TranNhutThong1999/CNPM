@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.thong.DTO.NhanVienDTO;
-import com.thong.Entity.NhanVien;
+import com.thong.DTO.UserDTO;
+import com.thong.Entity.User;
 import com.thong.InterfaceService.INhanVienService;
 import com.thong.Service.MailSerive;
 import com.thong.Service.NhanVienService;
@@ -31,7 +31,6 @@ import com.thong.Util.MessagesUtil;
 
 @Controller
 @RequestMapping("/login")
-@SessionAttributes({"user","gioHang","tongSoLuongGioHang"})
 public class LoginController {
 	@Autowired
 	private INhanVienService nhanVienService;

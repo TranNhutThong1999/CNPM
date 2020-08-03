@@ -6,4 +6,5 @@ import com.thong.Entity.ChucVu;
 
 public interface IChucVuService {
 	List<ChucVu> findAll();
+	ChucVu findOneByName(String name);
 }

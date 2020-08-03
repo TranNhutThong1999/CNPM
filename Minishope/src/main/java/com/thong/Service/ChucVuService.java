@@ -17,5 +17,9 @@ public class ChucVuService implements IChucVuService{
 		// TODO Auto-generated method stub
 		return chucVuDAO.findAll();
 	}
+	public ChucVu findOneByName(String name) {
+		// TODO Auto-generated method stub
+		return chucVuDAO.findOneByName(name);
+	}
 
 }

@@ -18,10 +18,10 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.thong.CustomValidation.IsExist;
-import com.thong.DTO.NhanVienDTO;
+import com.thong.DTO.UserDTO;
 
 @Entity(name = "nhanvien")
-public class NhanVien {
+public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -171,13 +171,13 @@ public class NhanVien {
 		return timetamp.after(this.timeToken);
 	}
 
-	public NhanVien() {
+	public User() {
 		super();
 		// this.isEnabled=false;
 		this.token = UUID.randomUUID().toString();
 	}
 
-	public NhanVien(NhanVien nv) {
+	public User(User nv) {
 		this.chucVu = nv.getChucVu();
 		this.CMND = nv.getCMND();
 		this.diaChi = nv.getDiaChi();
@@ -195,7 +195,7 @@ public class NhanVien {
 		this.isNonBanned=nv.isNonBanned();
 
 	}
-	public NhanVien (NhanVienDTO nv) {
+	public User (UserDTO nv) {
 		this.chucVu = nv.getChucVu();
 		this.CMND = nv.getCMND();
 		this.diaChi = nv.getDiaChi();

@@ -15,16 +15,23 @@ import com.thong.InterfaceDAO.IChucVuDAO;
 
 @Repository
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Transactional
 public class ChucVuDAO implements IChucVuDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	@Transactional
+	
 	public List<ChucVu> findAll(){
 		Session session = sessionFactory.getCurrentSession();
 		List<ChucVu> cv = session.createQuery("from chucvu").getResultList();
 		
 		return cv;	
 	}
+	public ChucVu findOneByName(String name) {
+		Session session = sessionFactory.getCurrentSession();
+		ChucVu cv = (ChucVu) session.createQuery("from chucvu where tenChucVu='"+name+"'").getSingleResult();
+		return cv;	
+	}
+	
 }

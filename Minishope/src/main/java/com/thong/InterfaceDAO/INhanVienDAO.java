@@ -2,32 +2,32 @@ package com.thong.InterfaceDAO;
 
 import java.util.List;
 
-import com.thong.Entity.NhanVien;
+import com.thong.Entity.User;
 
 public interface INhanVienDAO {
-	NhanVien checkLogin(String userName, String password);
+	User checkLogin(String userName, String password);
 
-	int save(NhanVien nv);
+	int save(User nv);
 
 	boolean checkUserName(String userName);
 
-	List<NhanVien> searchNhanVien(String keyWords,String sortBy,String typeSort,int begin,int quantity);
+	List<User> searchNhanVien(String keyWords,String sortBy,String typeSort,int begin,int quantity);
 	
-	List<NhanVien> findAll(int begin,int quantity,String sortBy,String typeSort);
+	List<User> findAll(int begin,int quantity,String sortBy,String typeSort);
 	
-	void delete (NhanVien nv);
+	void delete (User nv);
 	
-	NhanVien findOneById(int idUser);
+	User findOneById(int idUser);
 	
 	boolean checkEmail(String email) ;
 	
-	NhanVien findByUserName(String userName);
+	User findByUserName(String userName);
 	
-	 void update(NhanVien nv);
+	 void update(User nv);
 	 
-	 NhanVien findByToken(String token);
+	 User findByToken(String token);
 	 
-	 NhanVien findByTokenFB(String tokenFB);
+	 User findByTokenFB(String tokenFB);
 	 
-	 Integer saveUserFB(NhanVien nv);
+	 Integer saveUserFB(User nv);
 }

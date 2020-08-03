@@ -203,10 +203,10 @@
 		    var value=xhr.responseText;
 		   if(value==="failure"){
 			   console.log(value)
-			   document.getElementsByClassName("messenger")[0].innerHTML="Tai khoan bi khoa";
-			   document.getElementsByClassName("messenger")[0].className += " alert-danger size";
+			 
 		   }else{
-			   window.location.href="/Minishope/Home";
+			   sessionStorage.setItem('token', value);
+			   window.location.href="/Minishope/views/test.jsp";
 		   }
 		}; 
 		var data = JSON.stringify(object);
@@ -216,7 +216,7 @@
 
 	  window.fbAsyncInit = function() {
 	    FB.init({
-	      appId      : '1585078791643590',
+	      appId      : '346794289619979',
 	      cookie     : true,
 	      xfbml      : true,
 	      version    : 'v7.0'
@@ -260,7 +260,7 @@
 					},
 					success:function(value){
 						sessionStorage.setItem('token', value);
-						window.location.href="/Minishope/Home/";
+						window.location.href="/Minishope/views/test.jsp";
 					},
 					error:function(err){
 						console.log(err)

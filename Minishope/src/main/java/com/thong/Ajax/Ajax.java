@@ -89,6 +89,39 @@ public class Ajax {
 	@Autowired
 	private IChucVuService chucVuService;
 
+	@PostMapping(value = "CheckSignUp/", produces = "Application/json;charset=UTF-8")
+	public String logInProccess(@RequestBody @Valid UserDTO nv, BindingResult bindingResult) {
+		JSONObject json = new JSONObject();
+		json.put("tenDangNhap", "");
+		json.put("email", "");
+		json.put("matKhau", "");
+		if (bindingResult.hasErrors()) {
+			for (FieldError o : bindingResult.getFieldErrors()) {
+				json.put(o.getField(), o.getDefaultMessage());
+			}
+			return json.toString();
+		}
+
+		return "";
+	}
+
+	static boolean isValidEmail(String email) {
+		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+		return email.matches(regex);
+	}
+
+	static boolean isValidUserName(String tenDangNhap) {
+		String regex = "^[a-zA-Z]+[0-9]+";
+		return tenDangNhap.matches(regex);
+	}
+
+	static boolean isValidMatKhau(String matKhau) {
+		String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,20}$";
+		return matKhau.matches(regex);
+	}
+
+
+
 
 	@PostMapping(value = "login-Facebook", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> LoginByFaceBook(@RequestBody String json) {
@@ -161,4 +194,21 @@ public class Ajax {
 		}
 		
 	}
+	
+	@PostMapping(value = "sendTokenPassword", produces = "text/phain;charset=UTF-8")
+	public String sendTokenPassword( @RequestParam String userName,@RequestParam String url) {
+		System.out.println(url);
+		UserDTO nv = nhanVienService.findByUserNameDTO(userName);
+		if (nv != null) {
+			nv.setTokenRamdom();
+			nv.setTimeTokenFuture(15);
+			nhanVienService.update(nv);
+			mailSerive.sendMail(nv.getEmail(), "Verify create account",
+					url+"/Minishope/login?token=" + nv.getToken());
+			return "ok";
+		} else {
+			return "Tên Đăng Nhập không tồn tại";
+		}
+	}
+
 }

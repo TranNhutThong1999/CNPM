@@ -51,21 +51,7 @@ public class LoginController {
 		return "LogIn";
 	}
 	
-//	@PostMapping
-//	public String LogInProccess(@RequestParam String username, @RequestParam String password,
-//			 ModelMap modelMap) {
-//		NhanVienDTO nv = nhanVienService.checkLogin(username, password);
-//		if (nv != null) {
-//			modelMap.addAttribute("user", nv);
-//		
-//		} else {
-//			modelMap.addAttribute("SignUp", "sai mật khẩu hoặc tài khoản");
-//			modelMap.addAttribute("alert", "danger");
-//			System.out.println("ko thành công");
-//			return "LogIn";
-//		}
-//		return "redirect:/Home/";
-//	}
+
 
 	
 	static boolean isValid(String email) {

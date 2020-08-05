@@ -51,7 +51,7 @@ import com.thong.DTO.UserDTO;
 import com.thong.Entity.ChucVu;
 import com.thong.Entity.User;
 import com.thong.InterfaceService.IChucVuService;
-import com.thong.InterfaceService.INhanVienService;
+import com.thong.InterfaceService.IUserService;
 import com.thong.JWT.JWT;
 import com.thong.Service.MailSerive;
 
@@ -64,7 +64,7 @@ public class Ajax {
 	SessionFactory sessionFactory;
 
 	@Autowired
-	private INhanVienService nhanVienService;
+	private IUserService nhanVienService;
 
 	@Autowired
 	private ServletContext context;
@@ -88,7 +88,7 @@ public class Ajax {
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private IChucVuService chucVuService;
-
+//signUp
 	@PostMapping(value = "CheckSignUp/", produces = "Application/json;charset=UTF-8")
 	public String logInProccess(@RequestBody @Valid UserDTO nv, BindingResult bindingResult) {
 		JSONObject json = new JSONObject();
@@ -109,7 +109,7 @@ public class Ajax {
 		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 		return email.matches(regex);
 	}
-//ff
+
 	static boolean isValidUserName(String tenDangNhap) {
 		String regex = "^[a-zA-Z]+[0-9]+";
 		return tenDangNhap.matches(regex);
@@ -120,8 +120,7 @@ public class Ajax {
 		return matKhau.matches(regex);
 	}
 
-
-
+	
 
 	@PostMapping(value = "login-Facebook", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> LoginByFaceBook(@RequestBody String json) {
@@ -194,7 +193,7 @@ public class Ajax {
 		}
 		
 	}
-	
+//forgot password	
 	@PostMapping(value = "sendTokenPassword", produces = "text/phain;charset=UTF-8")
 	public String sendTokenPassword( @RequestParam String userName,@RequestParam String url) {
 		System.out.println(url);
@@ -211,4 +210,32 @@ public class Ajax {
 		}
 	}
 
+	@PostMapping(value = "changePW", produces = "text/phain;charset=UTF-8")
+	public String checkChangePW(@RequestParam String token, @RequestParam String password) {
+		System.out.println(token);
+		JSONObject json = new JSONObject();
+		User nv = nhanVienService.findByToken(token.trim());
+		if (nv == null) {
+			json.put("token", "Code không đúng");
+		} else if (nv.isAfterTime()) {
+			json.put("token", "Quá thời hạn đổi mật khẩu vui lòng thực hiện lại");
+		} else {
+			if (password.length() < 6 || password.length() > 20) {
+				json.put("matKhau", "Mật khẩu từ 6 đến 20 ký tự");
+			} else {
+				if (isValidMatKhau(password) == false) {
+					json.put("matKhau","Mật khẩu bao gồm chử cái và số");
+				}
+			}
+		}
+
+		if (json.length() == 0) {
+			nv.setMatKhau(bCrypt.encode(password));
+			nv.setToken("");
+			nhanVienService.update(nv);
+			json.put("DangKy", "true");
+			return json.toString();
+		}
+		return json.toString();
+	}
 }

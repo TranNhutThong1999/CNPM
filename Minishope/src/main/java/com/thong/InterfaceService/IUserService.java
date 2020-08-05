@@ -6,17 +6,10 @@ import com.thong.DTO.UserDTO;
 import com.thong.Entity.User;
 
 public interface INhanVienService {
-	UserDTO checkLogin(String userName, String password);
 
 	int save(UserDTO nv);
 
 	boolean checkUserName(String userName);
-
-	List<UserDTO> searchNhanVien(String keyWords, String sortBy, String typeSort, int begin, int quantity);
-
-	List<UserDTO> findAll(int begin, int quantity, String sortBy, String typeSort);
-
-	void delete(List<Integer> idUser);
 
 	UserDTO findOneById(int idUser);
 

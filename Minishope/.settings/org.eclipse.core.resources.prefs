@@ -1,4 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/thong/Ajax/Ajax.java=UTF-8
 encoding//src/main/java/com/thong/Controller/LoginController.java=UTF-8
+encoding//src/main/java/com/thong/Controller/SignUpController.java=UTF-8
 encoding//src/main/java/com/thong/CustomValidation/IsExist.java=UTF-8
+encoding//src/main/java/com/thong/DTO/UserDTO.java=UTF-8

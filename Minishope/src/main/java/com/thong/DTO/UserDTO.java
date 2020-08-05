@@ -26,16 +26,16 @@ public class UserDTO {
 	private String soDT;
 
 	@NotEmpty(message = "Tên đăng nhập không được để trống")
-	@Pattern(regexp = "^[a-zA-Z]+[0-9]+", message = "Tên đăng nhập phải bao gồm chữ cái và số")
-	@Size(min = 6, max = 30, message = "Tên đăng nhập từ 6 đến 30 kí tự")
+	@Pattern(regexp = "^[a-zA-Z]+[0-9]+", message = "Tên đăng nhập bao gồm chữ cái và chữ số")
+	@Size(min = 6, max = 30, message = "Tên đăng nhập từ 6 đến 30 ký tự")
 	@IsExist
 	private String tenDangNhap;
 	private ChucVu chucVu;
 	private boolean isEnabled;
 
 	@NotEmpty(message = "Mật khẩu không được để trống")
-	@Size(min = 5, max = 25, message = "Mật khẩu từ 5 đến 25 kí tự")
-	//@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\\\d)[A-Za-z\\\\d]{6,20}$",message = "Mật khẩu phải bao gồm chữ cái và số")
+	@Size(min = 6, max = 25, message = "Mật khẩu từ 6 đến 25 ký tự")
+	//@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\\\d)[A-Za-z\\\\d]{6,20}$",message = "Máº­t kháº©u pháº£i bao gá»“m chá»¯ cÃ¡i vÃ  sá»‘")
 	private String matKhau;
 	private Timestamp timeToken;
 	private String token;

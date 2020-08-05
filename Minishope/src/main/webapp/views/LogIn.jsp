@@ -292,7 +292,56 @@
 			}) 
 			
 
-				
+		// signup
+			var token=""
+			getUrlVars();// Run code
+			
+			function getUrlVars() {
+			
+			    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+			        console.log(key)
+			       if(key==="token" & key!==null){
+			    	   token= value
+			    	   $('#pwdModal').modal('show');
+			    	   $("#inputPassword").show();
+			    	   $("#back-changePassword").show();
+			       }else{
+			    	   
+			       }
+			    });
+		}
+				$("#timer").hide();	
+			var path = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+			$("#btn-mailSendToken").click(function(e){
+				var userNameSendToken=$("#userNameSendToken").val();	
+				if( userNameSendToken===""){
+					$("#message-mail").html("Không được để trống thông tin")
+				}else{
+					$.ajax({
+						url:"/Minishope/Api/sendTokenPassword",
+						type:"Post",
+						data:{
+							userName:userNameSendToken,
+							url:path
+						},
+						success:function(value){
+							if(value==="ok"){
+							/* 	$("#inputPassword").show();
+								$("#inputEmail").hide();
+								$("#btn-mailSendToken").hide()
+								$("#message-mail").html("")
+								$("#message-mail").removeClass("red") */
+								$("#message-mail").html("Vui long check your email")
+								$("#message-mail").addClass("red")
+								decrement()
+							}else{
+								$("#message-mail").html(value)
+								$("#message-mail").addClass("red")
+							}
+						}
+					})
+			}
+		})	
 		
 		})//end
 	</script>

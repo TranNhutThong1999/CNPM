@@ -20,13 +20,6 @@ public class NhanVienService implements INhanVienService {
 	@Autowired
 	private BCryptPasswordEncoder bCrypt;
 
-	public UserDTO checkLogin(String userName, String password) {
-		User nv = nhanVienDAO.checkLogin(userName, bCrypt.encode(password));
-		if (nv == null) {
-			return null;
-		}
-		return new UserDTO(nv);
-	}
 
 	public int save(UserDTO n ) {
 		User nv= new User(n);
@@ -44,39 +37,6 @@ public class NhanVienService implements INhanVienService {
 
 	public boolean checkUserName(String userName) {
 		return nhanVienDAO.checkUserName(userName);
-
-	}
-
-	public List<UserDTO> searchNhanVien(String keyWords, String sortBy, String typeSort, int begin, int quantity) {
-		List<User> listNV = nhanVienDAO.searchNhanVien(keyWords, sortBy, typeSort, begin, quantity);
-
-		List<UserDTO> listNVDTO = new ArrayList<UserDTO>();
-		;
-		for (User nv : listNV) {
-			UserDTO nvDTO = new UserDTO(nv);
-			listNVDTO.add(nvDTO);
-		}
-		return listNVDTO;
-	}
-
-	public List<UserDTO> findAll(int begin, int quantity, String sortBy, String typeSort) {
-		List<User> list = nhanVienDAO.findAll(begin, quantity, sortBy, typeSort);
-		List<UserDTO> listDTO = new ArrayList<UserDTO>();
-		for (User nv : list) {
-			UserDTO nvDTO = new UserDTO(nv);
-			listDTO.add(nvDTO);
-		}
-
-		return listDTO;
-	}
-
-	public void delete(List<Integer> idUser) {
-		for (Integer i : idUser) {
-			User nv = nhanVienDAO.findOneById(i);
-			if (!nv.getChucVu().getTenChucVu().equals("ROLE_admin")) {
-				nhanVienDAO.delete(nv);
-			}
-		}
 
 	}
 

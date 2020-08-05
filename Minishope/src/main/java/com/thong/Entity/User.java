@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
 import com.thong.CustomValidation.IsExist;
 import com.thong.DTO.UserDTO;
 
-@Entity(name = "nhanvien")
+@Entity(name = "user")
 public class User {
 
 	@Id

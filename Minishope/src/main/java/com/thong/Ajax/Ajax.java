@@ -1,4 +1,4 @@
-package com.thong.Ajax;
+﻿package com.thong.Ajax;
 
 import java.io.File;
 import java.io.IOException;
@@ -207,7 +207,7 @@ public class Ajax {
 			return "ok";
 		} else {
 			return "Tên Đăng Nhập không tồn tại";
-		}
+		}//passbvhmh
 	}
 
 	@PostMapping(value = "changePW", produces = "text/phain;charset=UTF-8")

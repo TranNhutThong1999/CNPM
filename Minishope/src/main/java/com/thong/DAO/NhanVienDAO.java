@@ -22,37 +22,8 @@ public class NhanVienDAO  implements INhanVienDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public List<User> findAll(int begin, int quantity, String sortBy, String typeSort) {
-		Session session = sessionFactory.getCurrentSession();
-		Query query = null;
-		String order = "order by " + sortBy + " " + typeSort;
-		if (typeSort == null || typeSort.isEmpty()) {
-			order = "";
-		}
-		if (begin == -1) {
-			query = session.createQuery("from nhanvien  " + order);
-		} else {
-			query = session.createQuery("from nhanvien " + order).setFirstResult(begin).setMaxResults(quantity);
-		}
-		List<User> list = query.list();
-		return list;
-	}
-
-	public User checkLogin(String userName, String password) {
-		try {
-			Session session = sessionFactory.getCurrentSession();
-			User nhanVien = (User) session
-					.createQuery("from nhanvien where tenDangNhap='" + userName + "' and matKhau='" + password + "'")
-					.getSingleResult();
-			if (nhanVien != null) {
-				return nhanVien;
-			}
-		} catch (Exception e) {
-			return null;
-		}
-		return null;
-
-	}
+	
+	
 	
 	public int save(User nv) {
 		Session session = sessionFactory.getCurrentSession();
@@ -69,7 +40,7 @@ public class NhanVienDAO  implements INhanVienDAO {
 		Session session = sessionFactory.getCurrentSession();
 		try {
 
-			User nv = (User) session.createQuery("from nhanvien where tenDangNhap = '" + userName + "'")
+			User nv = (User) session.createQuery("from user where tenDangNhap = '" + userName + "'")
 					.getSingleResult();
 			return true;
 		} catch (Exception e) {
@@ -81,7 +52,7 @@ public class NhanVienDAO  implements INhanVienDAO {
 	public boolean checkEmail(String email) {
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			User nv = (User) session.createQuery("from nhanvien where email=?").setParameter(1, email)
+			User nv = (User) session.createQuery("from user where email=?").setParameter(1, email)
 					.getSingleResult();
 			return true;
 		} catch (Exception e) {
@@ -108,12 +79,12 @@ public class NhanVienDAO  implements INhanVienDAO {
 		}
 
 		if (begin == -1) {
-			query = session.createQuery("from nhanvien where tenDangNhap like '%" + keyWords + "%' or idChucVu = "
+			query = session.createQuery("from user where tenDangNhap like '%" + keyWords + "%' or idChucVu = "
 					+ value + " or email like '" + keyWords + "' ");
 		} else {
 
 			query = session
-					.createQuery("from nhanvien where tenDangNhap like '%" + keyWords + "%' or idChucVu = " + value
+					.createQuery("from user where tenDangNhap like '%" + keyWords + "%' or idChucVu = " + value
 							+ " or email like '%" + keyWords + "%' " + order)
 					.setFirstResult(begin).setMaxResults(quantity);
 		}
@@ -140,7 +111,7 @@ public class NhanVienDAO  implements INhanVienDAO {
 		User nv = null;
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			nv = (User) session.createQuery("from nhanvien nv where nv.tenDangNhap= '" + userName + "'")
+			nv = (User) session.createQuery("from user nv where nv.tenDangNhap= '" + userName + "'")
 					.getSingleResult();
 
 			return nv;
@@ -154,7 +125,7 @@ public class NhanVienDAO  implements INhanVienDAO {
 		User nv = null;
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			nv = (User) session.createQuery("from nhanvien nv where nv.token = '" + token + "'")
+			nv = (User) session.createQuery("from user nv where nv.token = '" + token + "'")
 					.getSingleResult();
 			return nv;
 
@@ -167,7 +138,7 @@ public class NhanVienDAO  implements INhanVienDAO {
 		User nv = null;
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			nv = (User) session.createQuery("from nhanvien nv where nv.tokenFB = '" + tokenFB + "'")
+			nv = (User) session.createQuery("from user nv where nv.tokenFB = '" + tokenFB + "'")
 					.getSingleResult();
 			return nv;
 

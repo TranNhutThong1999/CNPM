@@ -88,10 +88,60 @@ public class Ajax {
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private IChucVuService chucVuService;
+//signup
+	@PostMapping(value = "CheckSignUp/", produces = "Application/json;charset=UTF-8")
+	public String logInProccess(@RequestBody @Valid UserDTO nv, BindingResult bindingResult) {
+		JSONObject json = new JSONObject();
+		json.put("tenDangNhap", "");
+		json.put("email", "");
+		json.put("matKhau", "");
+		if (bindingResult.hasErrors()) {
+			for (FieldError o : bindingResult.getFieldErrors()) {
+				json.put(o.getField(), o.getDefaultMessage());
+			}
+			return json.toString();
+		}
+
+		return "";
+	}
+
+	static boolean isValidEmail(String email) {
+		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+		return email.matches(regex);
+	}
+
+	static boolean isValidUserName(String tenDangNhap) {
+		String regex = "^[a-zA-Z]+[0-9]+";
+		return tenDangNhap.matches(regex);
+	}
+
+	static boolean isValidMatKhau(String matKhau) {
+		String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,20}$";
+		return matKhau.matches(regex);
+	}
+	@PostMapping(value = "addUser/", produces = "application/json;charset=UTF-8")
+	public String sigUpAPI(@RequestBody @Valid UserDTO nv, BindingResult bindingResult) {
+		JSONObject json = new JSONObject();
+		if (bindingResult.hasErrors()) {
+			for (FieldError o : bindingResult.getFieldErrors()) {
+				json.put(o.getField(), o.getDefaultMessage());
+			}
+			json.put("DangKy", "false");
+			System.out.println("errr");
+			return json.toString();
+		}
+		System.out.println(nv.toString());
+		nhanVienService.save(nv);
+		json.put("DangKy", "true");
+		return json.toString();
+
+	}
+
 
 
 	@PostMapping(value = "login-Facebook", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> LoginByFaceBook(@RequestBody String json) {
+		System.out.println(json.toString());
 		boolean result = false;
 		JSONObject o = new JSONObject(json);
 		User nv = nhanVienService.findByUserName(o.getString("userID"));
@@ -161,4 +211,50 @@ public class Ajax {
 		}
 		
 	}
+// forget password	
+	@PostMapping(value = "sendTokenPassword", produces = "text/phain;charset=UTF-8")
+	public String sendTokenPassword( @RequestParam String userName,@RequestParam String url) {
+		System.out.println(url);
+		UserDTO nv = nhanVienService.findByUserNameDTO(userName);
+		if (nv != null) {
+			nv.setTokenRamdom();
+			nv.setTimeTokenFuture(15);
+			nhanVienService.update(nv);
+			mailSerive.sendMail(nv.getEmail(), "Verify create account",
+					url+"/Minishope/login?token=" + nv.getToken());
+			return "ok";
+		} else {
+			return "Tên Đăng Nhập không tồn tại";
+		}
+	}
+	@PostMapping(value = "changePW", produces = "text/phain;charset=UTF-8")
+	public String checkChangePW(@RequestParam String token, @RequestParam String password) {
+		System.out.println(token);
+		JSONObject json = new JSONObject();
+		User nv = nhanVienService.findByToken(token.trim());
+		if (nv == null) {
+			json.put("token", "Code không đúng");
+		} else if (nv.isAfterTime()) {
+			json.put("token", "Quá thời hạn đổi mật khẩu vui lòng thực hiện lại");
+		} else {
+			if (password.length() < 6 || password.length() > 20) {
+				json.put("matKhau", mes.getMessage("NhanVien.matKhau.length", null, new Locale("vi")));
+			} else {
+				if (isValidMatKhau(password) == false) {
+					json.put("matKhau", mes.getMessage("NhanVien.matKhau.pattern", null, new Locale("vi")));
+				}
+			}
+		}
+
+		if (json.length() == 0) {
+			nv.setMatKhau(bCrypt.encode(password));
+			nv.setToken("");
+			nhanVienService.update(nv);
+			json.put("DangKy", "true");
+			return json.toString();
+		}
+		return json.toString();
+	}
+
+	
 }

@@ -178,7 +178,7 @@
         						//picture:res.picture,
         						email:res.email
         				}
-                    	// console.log(object)
+                    	 console.log(object)
                     	 sendInforToServer(object)
                     });
                     
@@ -292,8 +292,97 @@
 			}) 
 			
 
+		// signup
+			var token=""
+			getUrlVars();// Run code
+			
+			function getUrlVars() {
+			
+			    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+			        console.log(key)
+			       if(key==="token" & key!==null){
+			    	   token= value
+			    	   $('#pwdModal').modal('show');
+			    	   $("#inputPassword").show();
+			    	   $("#back-changePassword").show();
+			       }else{
+			    	   
+			       }
+			    });
+		}
+				$("#timer").hide();	
+			var path = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+			$("#btn-mailSendToken").click(function(e){
+				var userNameSendToken=$("#userNameSendToken").val();	
+				if( userNameSendToken===""){
+					$("#message-mail").html("Không được để trống thông tin")
+				}else{
+					$.ajax({
+						url:"/Minishope/Api/sendTokenPassword",
+						type:"Post",
+						data:{
+							userName:userNameSendToken,
+							url:path
+						},
+						success:function(value){
+							if(value==="ok"){
+							/* 	$("#inputPassword").show();
+								$("#inputEmail").hide();
+								$("#btn-mailSendToken").hide()
+								$("#message-mail").html("")
+								$("#message-mail").removeClass("red") */
+								$("#message-mail").html("Vui long check your email")
+								$("#message-mail").addClass("red")
+								decrement()
+							}else{
+								$("#message-mail").html(value)
+								$("#message-mail").addClass("red")
+							}
+						}
+					})
+			}
+		})	
 				
-		
+			$("#btn-changePassword").click(function(){
+				var newPW=$("#forgot-newPassword").val();
+				var preNewPS=$("#forgot-prePassword").val();
+				let tokenT=token;
+				console.log(newPW +" "+preNewPS)
+				if(newPW==="" | preNewPS==="" | token===""){
+					$("#message-password").html("Không được bỏ trống")
+					return null;
+				}else{
+					if(newPW===preNewPS){
+						$.ajax({
+							url:"/Minishope/Api/changePW",
+							type:"post",
+							data:{
+								password:newPW,
+								token:tokenT
+							},
+							success:function(value){
+								
+								var ob= JSON.parse(value)
+								console.log(ob)
+								$.each(ob,function(index,value){
+									if(index==="token"){
+										$("#message-password").html(value)
+									}else if(index==="matKhau"){
+										$("#message-password").html(value)
+									}else if(index==="DangKy"){
+										window.location.href="/Minishope/login?message=changePW_OK"
+									}else{
+										$("#message-password").html(value)
+									}
+								})
+							}
+						})
+					}else{
+						$("#message-password").html("Confirm không trùng với Password");
+					}
+				}
+			
+			})
 		})//end
 	</script>
 </body>

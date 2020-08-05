@@ -109,7 +109,7 @@ public class Ajax {
 		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 		return email.matches(regex);
 	}
-
+//ff
 	static boolean isValidUserName(String tenDangNhap) {
 		String regex = "^[a-zA-Z]+[0-9]+";
 		return tenDangNhap.matches(regex);

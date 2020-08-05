@@ -19,14 +19,14 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import com.thong.DTO.MyUser;
 import com.thong.Entity.User;
-import com.thong.InterfaceService.INhanVienService;
+import com.thong.InterfaceService.IUserService;
 import com.thong.JWT.JWT;
 
 public class JwtFilter extends GenericFilterBean {
 	@Autowired
 	private JWT jWT;
 	@Autowired
-	private INhanVienService nhanVienService;
+	private IUserService nhanVienService;
 	
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
         throws IOException, ServletException {

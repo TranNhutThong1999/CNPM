@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 import com.thong.DTO.UserDTO;
 import com.thong.Entity.ChucVu;
 import com.thong.Entity.User;
-import com.thong.InterfaceDAO.INhanVienDAO;
-import com.thong.InterfaceService.INhanVienService;
+import com.thong.InterfaceDAO.IUserDAO;
+import com.thong.InterfaceService.IUserService;
 
 @Service
-public class NhanVienService implements INhanVienService {
+public class UserService implements IUserService {
 	@Autowired
-	private INhanVienDAO nhanVienDAO;
+	private IUserDAO nhanVienDAO;
 	@Autowired
 	private BCryptPasswordEncoder bCrypt;
 

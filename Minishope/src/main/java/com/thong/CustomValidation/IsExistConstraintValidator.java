@@ -6,11 +6,11 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.thong.DTO.UserDTO;
-import com.thong.InterfaceService.INhanVienService;
+import com.thong.InterfaceService.IUserService;
 
 public class IsExistConstraintValidator implements ConstraintValidator<IsExist, String> {
 	@Autowired
-	private INhanVienService nhanVienService;
+	private IUserService nhanVienService;
 
 	public boolean isValid(String value, ConstraintValidatorContext context) {
 		// TODO Auto-generated method stub

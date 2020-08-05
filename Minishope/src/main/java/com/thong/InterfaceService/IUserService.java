@@ -5,7 +5,7 @@ import java.util.List;
 import com.thong.DTO.UserDTO;
 import com.thong.Entity.User;
 
-public interface INhanVienService {
+public interface IUserService {
 
 	int save(UserDTO nv);
 

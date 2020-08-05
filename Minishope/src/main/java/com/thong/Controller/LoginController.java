@@ -24,16 +24,16 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.thong.DTO.UserDTO;
 import com.thong.Entity.User;
-import com.thong.InterfaceService.INhanVienService;
+import com.thong.InterfaceService.IUserService;
 import com.thong.Service.MailSerive;
-import com.thong.Service.NhanVienService;
+import com.thong.Service.UserService;
 import com.thong.Util.MessagesUtil;
 
 @Controller
 @RequestMapping("/login")
 public class LoginController {
 	@Autowired
-	private INhanVienService nhanVienService;
+	private IUserService nhanVienService;
 	@Autowired
 	private MessageSource mes;
 	@Autowired

@@ -13,12 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thong.Entity.ChucVu;
 import com.thong.Entity.User;
-import com.thong.InterfaceDAO.INhanVienDAO;
+import com.thong.InterfaceDAO.IUserDAO;
 
 @Repository
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Transactional
-public class NhanVienDAO  implements INhanVienDAO {
+public class UserDAO  implements IUserDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 

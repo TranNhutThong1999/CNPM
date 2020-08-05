@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.thong.DTO.UserDTO;
-import com.thong.InterfaceService.INhanVienService;
+import com.thong.InterfaceService.IUserService;
 import com.thong.Service.MailSerive;
 
 @Controller
@@ -33,7 +33,7 @@ import com.thong.Service.MailSerive;
 @SessionAttributes({ "user", "gioHang", "tongSoLuongGioHang" })
 public class SignUpController {
 	@Autowired
-	private INhanVienService nhanVienService;
+	private IUserService nhanVienService;
 	@Autowired
 	private MessageSource mes;
 	@Autowired

@@ -32,7 +32,6 @@
 		                                <form  id="idsignin" method="post" action='<c:url value="/SignUp/confirm-account" />'>
 		                                    <div class="form-group">
 		                                        <input id="userNameSendToken" class="form-control input-lg" placeholder="code" name="token" type="text">
-		                                        <button id="resend" type="reset" class="btn btn-primary "style="display:none;"> Re Send </button>
 		                                    </div>
 		                                  
 		                                    <input id="nutSigIn" class="btn btn-lg btn-primary btn-block" value="Submit" type="submit">

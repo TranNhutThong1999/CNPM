@@ -23,5 +23,5 @@
 	<mvc:annotation-driven enable-matrix-variables="true"></mvc:annotation-driven>
 	
 	  <bean id="customSuccessHandler" class="com.thong.security.CustomSuccessHandler"/>
-	<mvc:view-controller path="/" view-name="redirect:/login"/> 
+	<mvc:view-controller path="/" view-name="redirect:/Home"/> 
 </beans>

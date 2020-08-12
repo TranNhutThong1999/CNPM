@@ -35,7 +35,7 @@
 </bean>
  <bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
 	 	<property name="host" value="smtp.gmail.com" />
-	 	<property name="port" value="26"/>
+	 	<property name="port" value="25"/>
 	    <property name="username" value="thongmap1998x@gmail.com" />
 	    <property name="password" value="0909310872" />
 	    <property name="javaMailProperties">
@@ -85,6 +85,6 @@
 	<mvc:annotation-driven></mvc:annotation-driven>
 	<context:annotation-config></context:annotation-config>		 
     <task:annotation-driven executor="sendMail" />
-	<task:executor id="sendMail" pool-size="5"/>
+	<task:executor id="sendMail" pool-size="10"/>
 		
 </beans>

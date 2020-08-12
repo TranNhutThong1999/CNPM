@@ -1,17 +1,14 @@
 package com.thong.DAO;
 
-import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thong.Entity.ChucVu;
 import com.thong.Entity.User;
 import com.thong.InterfaceDAO.IUserDAO;
 

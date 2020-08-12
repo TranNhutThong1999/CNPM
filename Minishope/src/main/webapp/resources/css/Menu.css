@@ -1,0 +1,162 @@
+*{
+	margin:0px;
+	padding: 0px;
+}
+
+input.form-control.mr-sm-2 {
+    width: 32%;
+}
+
+li.nav-item.dropdown:hover .nav-link {
+    color: #ee4266!important;
+}
+
+a.nav-link:hover i {
+    opacity: 1;
+}
+
+i.fa.fa-car {
+    opacity: 0.8;
+}
+
+i.fa.fa-car {}
+
+a.nav-link {}
+
+#menu img {
+    height: 43px;
+}
+
+.tooltip-z {
+    position: absolute;
+    border-top: 2px solid #ee4266;
+    display: none;
+}
+
+a.dropdown-item {
+    font-weight: 100;
+    letter-spacing: 0.05em;
+    color: white;
+    background-color: black;
+    padding: 7px 22px;
+}
+
+.scroll img {
+}
+
+#menu .active-gioHang {
+    width: 23px;
+    background: red;
+    position: absolute;
+    top: -2px;
+    right: 6px;
+    height: 22px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+
+.background #menu img {
+    height: 100%;
+}
+
+button.navbar-toggler.d-lg-none {
+    background-color: #c4bdbd!important;
+    height: 17px;
+}
+
+button.navbar-toggler.d-lg-none.collapsed {
+    background-color: #887878!important;
+    height: 24px;
+}
+
+.bg-primary {
+    z-index: 5;
+    background-color: black!important;
+    height: 80px;
+    transition: 0.6s;
+    width: 100%;
+    color: white;
+    position: fixed;
+    font-weight: 100;
+    letter-spacing: 0.05em;
+}
+
+.scroll {
+    height: 59px;
+    background-color: #000000c9!important;
+    /* transition: 0.5s; */
+    z-index: 2;
+}
+
+.background nav#menu {
+    background: black!important;
+    padding: 0px;
+    position: unset;
+    height: 63px;
+}
+
+a.navbar-brand {
+    margin-left: 5%;
+}
+
+.scroll a.navbar-brand {
+}
+
+.background #menu a.navbar-brand {
+    height: 100%;
+}
+
+.menu img {
+    margin-left: 55%;
+    height: 43px;
+}
+
+.center li.nav-item {
+    margin: 0% 11px;
+}
+
+
+.nav-link{
+    position: relative;
+    color:white !important;
+}
+
+i.fa.fa-car {
+    font-size: 23px;
+}
+.center{
+    
+width: 77%;
+    
+margin-left: 6%! important;
+    
+margin-left: 22%;
+    
+height: 37px;
+}
+ul.nav.justify-content-center {
+    width: 25%;
+}
+.right li.nav-item:first-child {
+    margin-right: -15px;
+    display: flex;
+}
+.logout {
+    border-left: 1px solid white;
+}
+li.nav-item.dropdown:hover .tooltip-z {
+    display: block;
+    animation: showAction 0.3s;
+    z-index:5;
+}
+@keyframes showAction {
+	from{
+		transform: translateY(15px);;
+	}	
+	to{
+		transform:translateY(0px);
+	}
+}

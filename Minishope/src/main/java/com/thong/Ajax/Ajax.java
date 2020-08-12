@@ -22,6 +22,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -52,7 +53,7 @@ import com.thong.Service.MailSerive;
 @RequestMapping("Api/")
 @Validated
 public class Ajax {
-//ssssssssssssssssssssssssssssssssssssss
+
 	@Autowired
 	SessionFactory sessionFactory;
 
@@ -64,7 +65,8 @@ public class Ajax {
 
 	@Autowired
 	private MessageSource mes;
-
+	
+	
 	@Autowired // Asysc
 	private MailSerive mailSerive;
 
@@ -194,12 +196,11 @@ public class Ajax {
 	public String sendTokenPassword(@RequestParam String userName, @RequestParam String url) {
 		System.out.println(url);
 		UserDTO nv = userService.findByUserNameDTO(userName);
-		System.out.println(nv.getEmail());
 		if (nv != null) {
 			nv.setTokenRamdom();
 			nv.setTimeTokenFuture(15);
 			userService.update(nv);
-	
+			System.out.println(nv.getEmail());
 			mailSerive.sendMail(nv.getEmail(), "Verify create account",
 					url + "/Minishope/login?token=" + nv.getToken());
 			return "ok";
@@ -220,10 +221,10 @@ public class Ajax {
 			json.put("token", "Quá thời hạn đổi mật khẩu vui lòng thực hiện lại");
 		} else {
 			if (password.length() < 6 || password.length() > 20) {
-				json.put("matKhau", mes.getMessage("NhanVien.matKhau.length", null, new Locale("vi")));
+				json.put("matKhau","Mật khẩu từ 6 đến 20 kí tự");
 			} else {
 				if (isValidMatKhau(password) == false) {
-					json.put("matKhau", mes.getMessage("NhanVien.matKhau.pattern", null, new Locale("vi")));
+					json.put("matKhau","Mật khẩu bao gồm chử cái và số");
 				}
 			}
 		}

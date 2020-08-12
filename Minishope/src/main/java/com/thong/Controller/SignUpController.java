@@ -48,14 +48,24 @@ public class SignUpController {
 	public String SignUpProccess(@ModelAttribute @Valid UserDTO nv, BindingResult bindingResult, ModelMap modelMap) {
 		System.out.println(nv.toString());
 		if (bindingResult.hasErrors()) {
+<<<<<<< HEAD
 			modelMap.addAttribute("SignUp", "Thông tin không hợp lệ");
+=======
+			System.out.println(bindingResult.getAllErrors().get(0).getDefaultMessage());
+			System.out.println(mes.getMessage("SignUp.fail", null, new Locale("vi")));
+			modelMap.addAttribute("SignUp", mes.getMessage("SignUp.fail", null, new Locale("vi")));
+>>>>>>> 79b8dc2151c51c144d4c264b66eb0d8e569456ab
 			return "SignUp";
 		}
 		nv.setEnabled(false);
 		nv.setNonBanned(true);
 		nhanVienService.save(nv);
 		mailSerive.sendMail(nv.getEmail(), "Verify create account", nv.getToken());
+<<<<<<< HEAD
 		modelMap.addAttribute("message", "Mã kích hoat đã được gửi đến mail của bạn vui lòng kiểm tra mail");
+=======
+		modelMap.addAttribute("message", mes.getMessage("verify.verify", null, new Locale("vi")));
+>>>>>>> 79b8dc2151c51c144d4c264b66eb0d8e569456ab
 		modelMap.addAttribute("alert", "success");
 		return "verify";
 	}
@@ -71,7 +81,13 @@ public class SignUpController {
 				modelMap.addAttribute("message", "sai code vui lòng kiểm tra lại");
 				return "verify";
 			}
+<<<<<<< HEAD
 
+=======
+//		} else {
+//			return "redirect:/login?message=verify_timeout";
+//		}
+>>>>>>> 79b8dc2151c51c144d4c264b66eb0d8e569456ab
 	}
 
 }

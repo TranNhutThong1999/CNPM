@@ -342,6 +342,7 @@
 					})
 			}
 		})	
+<<<<<<< HEAD
 				
 			$("#btn-changePassword").click(function(){
 				var newPW=$("#forgot-newPassword").val();
@@ -383,6 +384,9 @@
 				}
 			
 			})
+=======
+		
+>>>>>>> 79b8dc2151c51c144d4c264b66eb0d8e569456ab
 		})//end
 	</script>
 </body>

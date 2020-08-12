@@ -1,4 +1,4 @@
-package com.thong.Ajax;
+﻿package com.thong.Ajax;
 
 import java.io.File;
 import java.io.IOException;
@@ -138,6 +138,39 @@ public class Ajax {
 	}
 
 
+	@PostMapping(value = "CheckSignUp/", produces = "Application/json;charset=UTF-8")
+	public String logInProccess(@RequestBody @Valid UserDTO nv, BindingResult bindingResult) {
+		JSONObject json = new JSONObject();
+		json.put("tenDangNhap", "");
+		json.put("email", "");
+		json.put("matKhau", "");
+		if (bindingResult.hasErrors()) {
+			for (FieldError o : bindingResult.getFieldErrors()) {
+				json.put(o.getField(), o.getDefaultMessage());
+			}
+			return json.toString();
+		}
+
+		return "";
+	}
+
+	static boolean isValidEmail(String email) {
+		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+		return email.matches(regex);
+	}
+//ff
+	static boolean isValidUserName(String tenDangNhap) {
+		String regex = "^[a-zA-Z]+[0-9]+";
+		return tenDangNhap.matches(regex);
+	}
+
+	static boolean isValidMatKhau(String matKhau) {
+		String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,20}$";
+		return matKhau.matches(regex);
+	}
+
+
+
 
 	@PostMapping(value = "login-Facebook", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> LoginByFaceBook(@RequestBody String json) {
@@ -211,7 +244,11 @@ public class Ajax {
 		}
 		
 	}
+<<<<<<< HEAD
 // forget password	
+=======
+	
+>>>>>>> 79b8dc2151c51c144d4c264b66eb0d8e569456ab
 	@PostMapping(value = "sendTokenPassword", produces = "text/phain;charset=UTF-8")
 	public String sendTokenPassword( @RequestParam String userName,@RequestParam String url) {
 		System.out.println(url);
@@ -225,6 +262,7 @@ public class Ajax {
 			return "ok";
 		} else {
 			return "Tên Đăng Nhập không tồn tại";
+<<<<<<< HEAD
 		}
 	}
 	@PostMapping(value = "changePW", produces = "text/phain;charset=UTF-8")
@@ -257,4 +295,9 @@ public class Ajax {
 	}
 
 	
+=======
+		}//passbvhmh
+	}
+
+>>>>>>> 79b8dc2151c51c144d4c264b66eb0d8e569456ab
 }

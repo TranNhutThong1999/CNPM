@@ -15,7 +15,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.thong.DTO.MyUser;
 import com.thong.Entity.User;
-import com.thong.InterfaceService.INhanVienService;
+import com.thong.InterfaceService.IUserService;
 import com.thong.JWT.JWT;
 
 public class CustomInterceptor_JWT extends HandlerInterceptorAdapter {
@@ -24,7 +24,7 @@ public class CustomInterceptor_JWT extends HandlerInterceptorAdapter {
 	private JWT jWT;
 	
 	@Autowired
-	private INhanVienService nhanVienService;
+	private IUserService nhanVienService;
 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {

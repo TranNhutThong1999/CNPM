@@ -12,14 +12,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.thong.DAO.NhanVienDAO;
+import com.thong.DAO.UserDAO;
 import com.thong.DTO.MyUser;
 import com.thong.Entity.User;
 
 @Service
 public class CustomUserDetail implements UserDetailsService{
 	@Autowired
-	private NhanVienDAO nhanVienDAO;
+	private UserDAO nhanVienDAO;
 	//add context-can bas-packet
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		System.out.println("da vao "+username);	

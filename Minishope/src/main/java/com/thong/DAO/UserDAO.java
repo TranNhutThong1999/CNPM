@@ -13,18 +13,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thong.Entity.ChucVu;
 import com.thong.Entity.User;
-import com.thong.InterfaceDAO.INhanVienDAO;
+import com.thong.InterfaceDAO.IUserDAO;
 
 @Repository
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Transactional
-public class NhanVienDAO  implements INhanVienDAO {
+public class UserDAO  implements IUserDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	
 	
-	
+	public User findOneById(int idUser) {
+		Session session = sessionFactory.getCurrentSession();
+		User nv = session.get(User.class, idUser);
+		return nv;
+	}
 	public int save(User nv) {
 		Session session = sessionFactory.getCurrentSession();
 		return (Integer) session.save(nv);
@@ -59,51 +63,6 @@ public class NhanVienDAO  implements INhanVienDAO {
 			// TODO: handle exception
 			return false;
 		}
-	}
-
-
-	public List<User> searchNhanVien(String keyWords, String sortBy, String typeSort, int begin, int quantity) {
-		Session session = sessionFactory.getCurrentSession();
-		Query query = null;
-		String order = "order by " + sortBy + " " + typeSort;
-		if (typeSort == null || typeSort.isEmpty()) {
-			order = "";
-		}
-		int value = 0;
-		try {
-			ChucVu cv = (ChucVu) session.createQuery("from chucvu where tenChucVu like '%" + keyWords + "%'")
-					.getSingleResult();
-			value = cv.getIdChucVu();
-		} catch (Exception e) {
-
-		}
-
-		if (begin == -1) {
-			query = session.createQuery("from user where tenDangNhap like '%" + keyWords + "%' or idChucVu = "
-					+ value + " or email like '" + keyWords + "' ");
-		} else {
-
-			query = session
-					.createQuery("from user where tenDangNhap like '%" + keyWords + "%' or idChucVu = " + value
-							+ " or email like '%" + keyWords + "%' " + order)
-					.setFirstResult(begin).setMaxResults(quantity);
-		}
-		List<User> list = query.list();
-		for (User nhanVien : list) {
-			System.out.println("khong null" + nhanVien.toString());
-		}
-		return list;
-	}
-
-	public void delete(User nv) {
-		Session session = sessionFactory.getCurrentSession();
-		session.delete(nv);
-	}
-
-	public User findOneById(int idUser) {
-		Session session = sessionFactory.getCurrentSession();
-		User nv = session.get(User.class, idUser);
-		return nv;
 	}
 
 	public User findByUserName(String userName) {

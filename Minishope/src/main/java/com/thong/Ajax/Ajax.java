@@ -30,28 +30,21 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.thong.DTO.MyUser;
 import com.thong.DTO.UserDTO;
 import com.thong.Entity.ChucVu;
 import com.thong.Entity.User;
 import com.thong.InterfaceService.IChucVuService;
-import com.thong.InterfaceService.INhanVienService;
+import com.thong.InterfaceService.IUserService;
 import com.thong.JWT.JWT;
 import com.thong.Service.MailSerive;
 
@@ -59,12 +52,12 @@ import com.thong.Service.MailSerive;
 @RequestMapping("Api/")
 @Validated
 public class Ajax {
-
+//ssssssssssssssssssssssssssssssssssssss
 	@Autowired
 	SessionFactory sessionFactory;
 
 	@Autowired
-	private INhanVienService nhanVienService;
+	private IUserService userService;
 
 	@Autowired
 	private ServletContext context;
@@ -83,14 +76,15 @@ public class Ajax {
 
 	@Autowired
 	private JWT jwt;
-	
+
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private IChucVuService chucVuService;
+
 //signup
 	@PostMapping(value = "CheckSignUp/", produces = "Application/json;charset=UTF-8")
-	public String logInProccess(@RequestBody @Valid UserDTO nv, BindingResult bindingResult) {
+	public String SiginProccess(@RequestBody @Valid UserDTO nv, BindingResult bindingResult) {
 		JSONObject json = new JSONObject();
 		json.put("tenDangNhap", "");
 		json.put("email", "");
@@ -119,65 +113,13 @@ public class Ajax {
 		String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,20}$";
 		return matKhau.matches(regex);
 	}
-	@PostMapping(value = "addUser/", produces = "application/json;charset=UTF-8")
-	public String sigUpAPI(@RequestBody @Valid UserDTO nv, BindingResult bindingResult) {
-		JSONObject json = new JSONObject();
-		if (bindingResult.hasErrors()) {
-			for (FieldError o : bindingResult.getFieldErrors()) {
-				json.put(o.getField(), o.getDefaultMessage());
-			}
-			json.put("DangKy", "false");
-			System.out.println("errr");
-			return json.toString();
-		}
-		System.out.println(nv.toString());
-		nhanVienService.save(nv);
-		json.put("DangKy", "true");
-		return json.toString();
-
-	}
-
-
-	@PostMapping(value = "CheckSignUp/", produces = "Application/json;charset=UTF-8")
-	public String logInProccess(@RequestBody @Valid UserDTO nv, BindingResult bindingResult) {
-		JSONObject json = new JSONObject();
-		json.put("tenDangNhap", "");
-		json.put("email", "");
-		json.put("matKhau", "");
-		if (bindingResult.hasErrors()) {
-			for (FieldError o : bindingResult.getFieldErrors()) {
-				json.put(o.getField(), o.getDefaultMessage());
-			}
-			return json.toString();
-		}
-
-		return "";
-	}
-
-	static boolean isValidEmail(String email) {
-		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
-		return email.matches(regex);
-	}
-//ff
-	static boolean isValidUserName(String tenDangNhap) {
-		String regex = "^[a-zA-Z]+[0-9]+";
-		return tenDangNhap.matches(regex);
-	}
-
-	static boolean isValidMatKhau(String matKhau) {
-		String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,20}$";
-		return matKhau.matches(regex);
-	}
-
-
-
 
 	@PostMapping(value = "login-Facebook", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> LoginByFaceBook(@RequestBody String json) {
 		System.out.println(json.toString());
 		boolean result = false;
 		JSONObject o = new JSONObject(json);
-		User nv = nhanVienService.findByUserName(o.getString("userID"));
+		User nv = userService.findByUserName(o.getString("userID"));
 		String JWT;
 		if (nv == null) {
 			// create user
@@ -186,15 +128,15 @@ public class Ajax {
 			nvFB.setTenDangNhap(o.getString("userID"));
 			nvFB.setHoTen(o.getString("firstname") + " " + o.getString("lastname"));
 			nvFB.setToKenFB(o.getString("token"));
-			if(o.getString("email")!=null) {
-			nvFB.setEmail(o.getString("email"));
+			if (o.getString("email") != null) {
+				nvFB.setEmail(o.getString("email"));
 			}
 			nvFB.setEnabled(true);
 			nvFB.setNonBanned(true);
 			ChucVu cv = chucVuService.findOneByName("ROLE_user");
 			nvFB.setChucVu(cv);
 			System.out.println(nvFB.getChucVu().toString());
-			nhanVienService.saveUserFB(nvFB);
+			userService.saveUserFB(nvFB);
 			createPrincical(nvFB);
 			JWT = jwt.generateToken(nvFB.getTenDangNhap());
 			return new ResponseEntity<String>(JWT, HttpStatus.OK);
@@ -210,6 +152,7 @@ public class Ajax {
 		}
 
 	}
+
 	private boolean createPrincical(User nv) {
 		List<GrantedAuthority> listAuthor = new ArrayList<GrantedAuthority>();
 		listAuthor.add(new SimpleGrantedAuthority(nv.getChucVu().getTenChucVu()));
@@ -230,46 +173,47 @@ public class Ajax {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<String> checkLogin(@RequestParam  String username,@RequestParam String password) {
-		
+	public ResponseEntity<String> checkLogin(@RequestParam String username, @RequestParam String password) {
+
 		System.out.println(username);
 		System.out.println(password);
 		try {
-			Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
+			Authentication auth = authenticationManager
+					.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 			SecurityContextHolder.getContext().setAuthentication(auth);
-			String JWT=jwt.generateToken(username);
-			return new ResponseEntity<String>(JWT,HttpStatus.OK);
-		}catch (Exception e) {
-			return new ResponseEntity<String>("failure",HttpStatus.BAD_REQUEST);
+			String JWT = jwt.generateToken(username);
+			return new ResponseEntity<String>(JWT, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<String>("failure", HttpStatus.BAD_REQUEST);
 		}
-		
+
 	}
-<<<<<<< HEAD
+
 // forget password	
-=======
-	
->>>>>>> 79b8dc2151c51c144d4c264b66eb0d8e569456ab
 	@PostMapping(value = "sendTokenPassword", produces = "text/phain;charset=UTF-8")
-	public String sendTokenPassword( @RequestParam String userName,@RequestParam String url) {
+	public String sendTokenPassword(@RequestParam String userName, @RequestParam String url) {
 		System.out.println(url);
-		UserDTO nv = nhanVienService.findByUserNameDTO(userName);
+		UserDTO nv = userService.findByUserNameDTO(userName);
+		System.out.println(nv.getEmail());
 		if (nv != null) {
 			nv.setTokenRamdom();
 			nv.setTimeTokenFuture(15);
-			nhanVienService.update(nv);
+			userService.update(nv);
+	
 			mailSerive.sendMail(nv.getEmail(), "Verify create account",
-					url+"/Minishope/login?token=" + nv.getToken());
+					url + "/Minishope/login?token=" + nv.getToken());
 			return "ok";
 		} else {
 			return "Tên Đăng Nhập không tồn tại";
-<<<<<<< HEAD
+
 		}
 	}
+
 	@PostMapping(value = "changePW", produces = "text/phain;charset=UTF-8")
 	public String checkChangePW(@RequestParam String token, @RequestParam String password) {
 		System.out.println(token);
 		JSONObject json = new JSONObject();
-		User nv = nhanVienService.findByToken(token.trim());
+		User nv = userService.findByToken(token.trim());
 		if (nv == null) {
 			json.put("token", "Code không đúng");
 		} else if (nv.isAfterTime()) {
@@ -287,17 +231,11 @@ public class Ajax {
 		if (json.length() == 0) {
 			nv.setMatKhau(bCrypt.encode(password));
 			nv.setToken("");
-			nhanVienService.update(nv);
+			userService.update(nv);
 			json.put("DangKy", "true");
 			return json.toString();
 		}
 		return json.toString();
 	}
 
-	
-=======
-		}//passbvhmh
-	}
-
->>>>>>> 79b8dc2151c51c144d4c264b66eb0d8e569456ab
 }

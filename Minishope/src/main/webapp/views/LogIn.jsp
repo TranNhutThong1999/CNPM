@@ -33,7 +33,6 @@
 	                                    <div class="form-group">
 	                                        <input id="userNameSendToken" class="form-control input-lg" placeholder="User Name" name="username" type="text">
 	                                    </div>	                                   
-	                                    <div id="timer"> After <span id="dem"></span> you can resend code to your mail</div>
 	                                    <input id="btn-mailSendToken" class="btn btn-lg btn-primary btn-block" value="Send code to your Email" type="button">
 	                                </form>
 	                                </fieldset>
@@ -178,7 +177,7 @@
         						//picture:res.picture,
         						email:res.email
         				}
-                    	 console.log(object)
+                    	// console.log(object)
                     	 sendInforToServer(object)
                     });
                     
@@ -203,10 +202,10 @@
 		    var value=xhr.responseText;
 		   if(value==="failure"){
 			   console.log(value)
-			 
+			   document.getElementsByClassName("messenger")[0].innerHTML="Tai khoan bi khoa";
+			   document.getElementsByClassName("messenger")[0].className += " alert-danger size";
 		   }else{
-			   sessionStorage.setItem('token', value);
-			   window.location.href="/Minishope/views/test.jsp";
+			   window.location.href="/Minishope/Home";
 		   }
 		}; 
 		var data = JSON.stringify(object);
@@ -216,7 +215,7 @@
 
 	  window.fbAsyncInit = function() {
 	    FB.init({
-	      appId      : '346794289619979',
+	      appId      : '1585078791643590',
 	      cookie     : true,
 	      xfbml      : true,
 	      version    : 'v7.0'
@@ -234,7 +233,8 @@
 	     fjs.parentNode.insertBefore(js, fjs);
 	   }(document, 'script', 'facebook-jssdk'));
 </script>
-	
+		</div>
+	</div>
 	
 	<script src='<c:url value="/resources/js/1.js" />'  type="text/javascript" ></script>
 	<script type="text/javascript">
@@ -246,7 +246,23 @@
 			$('#inputEmail').hide();
 			$("#inputPassword").hide();
 			$("#back-changePassword").hide();
-		
+			var token=""
+				getUrlVars();// Run code
+			
+			function getUrlVars() {
+			
+			    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+			        console.log(key)
+			       if(key==="token" & key!==null){
+			    	   token= value
+			    	   $('#pwdModal').modal('show');
+			    	   $("#inputPassword").show();
+			    	   $("#back-changePassword").show();
+			       }else{
+			    	   
+			       }
+			    });
+		}
 			$('#nutSigIn').click(function(e){
 			//	e.preventdefault();
 				let name=$("#userName").val();
@@ -260,7 +276,7 @@
 					},
 					success:function(value){
 						sessionStorage.setItem('token', value);
-						window.location.href="/Minishope/views/test.jsp";
+						window.location.href="/Minishope/Home/";
 					},
 					error:function(err){
 						console.log(err)
@@ -291,27 +307,8 @@
 				$("#inputEmail").hide();
 			}) 
 			
-
-		// signup
-			var token=""
-			getUrlVars();// Run code
-			
-			function getUrlVars() {
-			
-			    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-			        console.log(key)
-			       if(key==="token" & key!==null){
-			    	   token= value
-			    	   $('#pwdModal').modal('show');
-			    	   $("#inputPassword").show();
-			    	   $("#back-changePassword").show();
-			       }else{
-			    	   
-			       }
-			    });
-		}
-				$("#timer").hide();	
-			var path = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+// submit send token
+var path = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
 			$("#btn-mailSendToken").click(function(e){
 				var userNameSendToken=$("#userNameSendToken").val();	
 				if( userNameSendToken===""){
@@ -341,8 +338,9 @@
 						}
 					})
 			}
-		})	
-<<<<<<< HEAD
+		})
+
+//validate token
 				
 			$("#btn-changePassword").click(function(){
 				var newPW=$("#forgot-newPassword").val();
@@ -384,9 +382,6 @@
 				}
 			
 			})
-=======
-		
->>>>>>> 79b8dc2151c51c144d4c264b66eb0d8e569456ab
 		})//end
 	</script>
 </body>

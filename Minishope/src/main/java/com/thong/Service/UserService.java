@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 import com.thong.DTO.UserDTO;
 import com.thong.Entity.ChucVu;
 import com.thong.Entity.User;
-import com.thong.InterfaceDAO.INhanVienDAO;
-import com.thong.InterfaceService.INhanVienService;
+import com.thong.InterfaceDAO.IUserDAO;
+import com.thong.InterfaceService.IUserService;
 
 @Service
-public class NhanVienService implements INhanVienService {
+public class UserService implements IUserService {
 	@Autowired
-	private INhanVienDAO nhanVienDAO;
+	private IUserDAO UserDAO;
 	@Autowired
 	private BCryptPasswordEncoder bCrypt;
 
@@ -32,28 +32,28 @@ public class NhanVienService implements INhanVienService {
 		nv.setNonBanned(true);
 		nv.setMatKhau(bCrypt.encode(nv.getMatKhau()));
 		System.out.println("mat khau " + nv.getMatKhau());
-		return nhanVienDAO.save(nv);
+		return UserDAO.save(nv);
 	}
 
 	public boolean checkUserName(String userName) {
-		return nhanVienDAO.checkUserName(userName);
+		return UserDAO.checkUserName(userName);
 
 	}
 
 	public UserDTO findOneById(int idUser) {
-		User nv = nhanVienDAO.findOneById(idUser);
+		User nv = UserDAO.findOneById(idUser);
 		UserDTO nvDTO = new UserDTO(nv);
 		return nvDTO;
 	}
 
 	public boolean checkEmail(String email) {
 		// TODO Auto-generated method stub
-		return nhanVienDAO.checkEmail(email);
+		return UserDAO.checkEmail(email);
 	}
 
 	public User findByUserName(String userName) {
 		// TODO Auto-generated method stub
-		return nhanVienDAO.findByUserName(userName);
+		return UserDAO.findByUserName(userName);
 	}
 
 	public void update(UserDTO n) {
@@ -62,23 +62,23 @@ public class NhanVienService implements INhanVienService {
 			nv.setNonBanned(true);
 		}
 		//nv.setMatKhau(bCrypt.encode(nv.getMatKhau()));
-		nhanVienDAO.update(nv);
+		UserDAO.update(nv);
 
 	}
 
 	public User findByToken(String token) {
 		// TODO Auto-generated method stub
-		return nhanVienDAO.findByToken(token);
+		return UserDAO.findByToken(token);
 	}
 
 	public User findOneById2(int idUser) {
 		// TODO Auto-generated method stub
-		return nhanVienDAO.findOneById(idUser);
+		return UserDAO.findOneById(idUser);
 	}
 
 	public UserDTO findByUserNameDTO(String userName) {
 		// TODO Auto-generated method stub
-		User nv =nhanVienDAO.findByUserName(userName);
+		User nv =UserDAO.findByUserName(userName);
 		if(nv==null) {
 			return null;
 		}
@@ -87,7 +87,7 @@ public class NhanVienService implements INhanVienService {
 
 	public User findByTokenFB(String tokenFB) {
 		// TODO Auto-generated method stub
-		User nv = nhanVienDAO.findByTokenFB(tokenFB);
+		User nv = UserDAO.findByTokenFB(tokenFB);
 		if(nv==null) {
 			return null;
 		}
@@ -102,7 +102,7 @@ public class NhanVienService implements INhanVienService {
 		ChucVu cv = new ChucVu();
 			cv.setIdChucVu(3);
 		nv.setChucVu(cv);
-		Integer i=nhanVienDAO.saveUserFB(nv);
+		Integer i=UserDAO.saveUserFB(nv);
 		if(i!=0) {
 			return true;
 		}else {
@@ -112,7 +112,7 @@ public class NhanVienService implements INhanVienService {
 
 	public UserDTO findByTokenDTO(String token) {
 		// TODO Auto-generated method stub
-		User nv = nhanVienDAO.findByToken(token);
+		User nv = UserDAO.findByToken(token);
 		if(nv==null) {
 			return null;
 		}
@@ -125,7 +125,7 @@ public class NhanVienService implements INhanVienService {
 			nv.setEnabled(true);
 		}
 		//nv.setMatKhau(bCrypt.encode(nv.getMatKhau()));
-		nhanVienDAO.update(nv);
+		UserDAO.update(nv);
 	}
 
 

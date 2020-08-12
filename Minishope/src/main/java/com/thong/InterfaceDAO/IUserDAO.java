@@ -4,12 +4,11 @@ import java.util.List;
 
 import com.thong.Entity.User;
 
-public interface INhanVienDAO {
+public interface IUserDAO {
 
 	int save(User nv);
 
 	boolean checkUserName(String userName);
-	
 	
 	User findOneById(int idUser);
 	
